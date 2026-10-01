@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172554">
+<meta name="description" content="8周居家力量训练计划，含动作动画示意、组数次数与训练打卡。">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>8周力量训练</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--pale:#eff6ff;--ink:#172033;--muted:#64748b;--green:#15803d}
+*{box-sizing:border-box}body{margin:0;background:#f1f5f9;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--navy);color:#fff;padding:calc(20px + env(safe-area-inset-top)) 18px 20px}
+header h1{font-size:23px;margin:0 0 6px}header p{margin:0;color:#dbeafe;font-size:14px}
+main{max-width:760px;margin:auto;padding:14px}.panel{background:#fff;border-radius:18px;padding:16px;margin:0 0 14px;box-shadow:0 3px 14px #0f172a0c}
+h2{font-size:18px;margin:0 0 12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1;min-width:0}
+select,button{font:inherit;border-radius:11px;padding:11px 12px;border:1px solid #cbd5e1;background:#fff;color:var(--ink)}
+button{cursor:pointer;font-weight:650}button.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.small{font-size:13px;color:var(--muted);line-height:1.55}.pill{display:inline-block;border-radius:999px;background:#dbeafe;color:#1d4ed8;padding:4px 9px;font-size:12px;font-weight:700}
+.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:#22c55e;width:0}
+.exercise{border:1px solid #e2e8f0;border-radius:15px;padding:12px;margin-top:10px}.exercise summary{cursor:pointer;line-height:1.6}.exercise h3{font-size:16px;margin:0 0 5px}.exercise p{margin:7px 0;font-size:14px;line-height:1.55}
+.demo{height:210px;background:linear-gradient(#f8fbff,#eaf2ff);border-radius:12px;position:relative;overflow:hidden;margin:10px 0}
+.demo svg{width:100%;height:100%}.figure{transform-origin:150px 145px;animation:squat 2.2s ease-in-out infinite}
+@keyframes squat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(12px) rotate(4deg)}}
+@keyframes push{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(10px) translateY(7px)}}
+@keyframes hinge{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
+@keyframes march{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes plank{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.demo[data-move="push"] .figure{animation:push 2.2s ease-in-out infinite}
+.demo[data-move="hinge"] .figure{animation:hinge 2.2s ease-in-out infinite}
+.demo[data-move="march"] .figure{animation:march .9s ease-in-out infinite}
+.demo[data-move="plank"] .figure{animation:plank 2s ease-in-out infinite}
+.tip{background:#f0fdf4;border-left:4px solid #22c55e;padding:9px 11px;border-radius:8px;font-size:13px;line-height:1.5}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:14px;margin:8px 0}.check input{margin-top:4px;transform:scale(1.15)}
+footer{text-align:center;color:#64748b;font-size:12px;padding:8px 0 26px}
+@media(prefers-reduced-motion:reduce){.figure{animation:none!important}}
+</style></head>
+<body>
+<header><h1>💪 8周居家力量训练</h1><p>进阶起步版 · 每周3练 · 每次约25–35分钟</p></header>
+<main>
+<section class="panel">
+<h2>选择训练</h2>
+<div class="row"><select id="day"><option value="A">训练 A｜下肢 + 推</option><option value="B">训练 B｜臀腿 + 拉</option><option value="C">训练 C｜全身 + 核心</option><option value="R">休息日｜轻松活动</option></select><select id="week"><option value="1">第1–2周｜建立节奏</option><option value="2">第3–4周｜增加负荷</option><option value="3">第5–6周｜进阶训练</option><option value="4">第7–8周｜巩固提升</option></select></div>
+<p class="small" id="summary"></p><div class="progress"><span id="bar"></span></div><p class="small" id="progressText">已完成 0 次训练</p>
+</section>
+<section class="panel"><h2>动作演示与要点</h2><p class="small">动画用于理解动作方向；每个动作先看说明，再慢慢完成。背包可装书或水瓶作为负重，务必确保牢固。</p><div id="moves"></div></section>
+<section class="panel"><h2>训练打卡</h2><label class="check"><input type="checkbox" id="done"> 我完成了今天的训练</label><div class="row"><button class="primary" id="save">保存打卡</button><button id="reset">清除记录</button></div><p class="small" id="feedback">记录保存在这台设备的浏览器中。</p></section>
+<section class="panel"><h2>训练原则</h2><ul style="padding-left:20px;line-height:1.7;font-size:14px"><li>每周安排3次，例：周一 A、周三 B、周五 C；其他日休息或散步。</li><li>组间休息60–120秒；每组结束时应感觉还可以再做约2次，不必练到力竭。</li><li>第1–2周也不是“零基础教学期”：直接按计划训练，但先用可控难度和标准动作。</li><li>当所有组都能轻松完成次数上限，下次增加1–2次，或给背包加少量重量。</li><li>出现尖锐疼痛、胸闷、头晕就停止；有旧伤或运动禁忌请先咨询专业人士。</li></ul></section>
+<footer>可安装网页 App（需通过 HTTPS 网站打开）· 支持离线使用</footer>
+</main>
+<script>
+const movesData={
+ A:[
+ {name:"背包深蹲",move:"squat",sets:["3组 × 10–12次","3组 × 12–15次","3组 × 12–15次","4组 × 10–15次"],desc:"背包贴近上背或抱在胸前，双脚约肩宽。臀部向后下方坐，脚掌踩稳，再站起。",tip:"膝盖方向跟脚尖一致；先用空手或轻背包，保持背部自然。"},
+ {name:"斜板/桌边俯卧撑",move:"push",sets:["3组 × 8–12次","3组 × 10–15次","3组 × 10–15次","4组 × 8–15次"],desc:"双手撑在稳固桌沿或高台，身体从头到脚成直线，胸口靠近支撑面，再推回。",tip:"支撑面越低越难。桌子必须稳固，腰不要下塌。"},
+ {name:"背包罗马尼亚硬拉",move:"hinge",sets:["3组 × 10–12次","3组 × 12–15次","3组 × 12–15次","4组 × 10–15次"],desc:"双手拿背包，膝盖微弯，臀部向后推，背部保持自然；感觉大腿后侧拉伸后站直。",tip:"这是髋部折叠，不是弯腰捡东西；背包贴近身体。"},
+ {name:"平板支撑",move:"plank",sets:["3组 × 20–30秒","3组 × 25–40秒","3组 × 30–45秒","3组 × 40–60秒"],desc:"前臂撑地，肘在肩膀下方，身体保持一条直线，正常呼吸。",tip:"宁可时间短，也不要塌腰或憋气。"}
+ ],
+ B:[
+ {name:"反向弓步",move:"squat",sets:["3组 × 每侧8次","3组 × 每侧10次","3组 × 每侧10–12次","4组 × 每侧8–12次"],desc:"站稳后单脚向后迈，身体垂直下蹲到舒服深度，再以前脚发力站回。左右交替。",tip:"先扶墙练平衡；前膝朝脚尖方向，不必追求膝盖碰地。"},
+ {name:"单臂背包划船",move:"hinge",sets:["3组 × 每侧10–12次","3组 × 每侧12–15次","3组 × 每侧12–15次","4组 × 每侧10–15次"],desc:"一手扶稳椅子，另一手拿背包；手肘沿身体旁向后拉，再慢慢放下。",tip:"肩膀远离耳朵，身体不要扭转；椅子要稳。"},
+ {name:"臀桥/背包臀桥",move:"bridge",sets:["3组 × 12次","3组 × 15次","4组 × 12–15次","4组 × 15次"],desc:"仰卧屈膝，脚踩地，收紧臀部抬起髋部，停一秒后慢慢放下。",tip:"熟练后可把轻背包放在髋部并用手扶稳。"},
+ {name:"提踵",move:"march",sets:["3组 × 15次","3组 × 18次","4组 × 15–20次","4组 × 20次"],desc:"扶稳椅背，脚跟缓慢抬高，再控制着放下。",tip:"不要弹跳；最高点停一下。"}
+ ],
+ C:[
+ {name:"分腿蹲（扶物版）",move:"squat",sets:["3组 × 每侧8次","3组 × 每侧10次","3组 × 每侧10–12次","4组 × 每侧8–12次"],desc:"一脚在前、一脚在后，扶墙保持平衡，垂直下沉再站起。",tip:"步距调整到稳定舒适；先徒手，不需要做很深。"},
+ {name:"跪姿俯卧撑或斜板俯卧撑",move:"push",sets:["3组 × 8–10次","3组 × 10–12次","3组 × 10–15次","4组 × 8–12次"],desc:"选择能保持躯干稳定的版本，缓慢下降，再推回。",tip:"如果跪姿不舒服，继续做斜板版本；不要塌腰。"},
+ {name:"背包早安式",move:"hinge",sets:["3组 × 12次","3组 × 15次","3组 × 15次","4组 × 12–15次"],desc:"背包轻放上背或抱胸，膝微弯、臀部向后推，躯干前倾后站直。",tip:"用轻重量，保持背部自然；感觉腰部不适就改徒手髋部折叠。"},
+ {name:"死虫式",move:"plank",sets:["3组 × 每侧8次","3组 × 每侧10次","3组 × 每侧10–12次","3组 × 每侧12次"],desc:"仰卧抬起手脚，缓慢伸展一侧手臂与对侧腿，再收回换边。",tip:"腰背尽量贴近地面；动作慢，不要为了伸远而拱腰。"}
+ ],
+ R:[{name:"轻松步行或活动",move:"march",sets:["10–30分钟"],desc:"以能轻松说完整句话的速度走路，也可以做舒适的活动度练习。",tip:"休息日不需要补课；恢复也是训练的一部分。"}]
+};
+function setFor(m,w){return m.sets[w-1]}
+function svg(move){return `<div class="demo" data-move="${move}"><svg viewBox="0 0 300 210" role="img" aria-label="动作循环动画示意"><line x1="35" y1="178" x2="265" y2="178" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/><g class="figure" stroke="#1d4ed8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="150" cy="42" r="16" fill="#fbbf24" stroke="#b45309" stroke-width="3"/><path d="M150 61 L150 111"/><path d="M150 75 L116 98 L98 125"/><path d="M150 75 L184 98 L202 125"/><path d="M150 111 L128 145 L113 175"/><path d="M150 111 L173 145 L188 175"/></g><text x="150" y="202" text-anchor="middle" font-size="11" fill="#475569">循环动画：动作方向示意</text></svg></div>`}
+function render(){let d=document.getElementById('day').value,w=Number(document.getElementById('week').value),list=movesData[d];document.getElementById('summary').textContent=d==='R'?'休息日：轻松步行、恢复体力即可。':`第${w===1?'1–2':w===2?'3–4':w===3?'5–6':'7–8'}周 · 每个动作按标注组数完成。组间休息60–120秒。`;
+document.getElementById('moves').innerHTML=list.map((m,i)=>`<details class="exercise" ${i===0?'open':''}><summary><strong>${i+1}. ${m.name}</strong> <span class="pill">${setFor(m,w)}</span></summary>${svg(m.move)}<p><b>怎么做：</b>${m.desc}</p><div class="tip"><b>动作提示：</b>${m.tip}</div></details>`).join('')}
+function count(){let n=Number(localStorage.getItem('workouts')||0);document.getElementById('progressText').textContent=`已完成 ${n} 次训练`;document.getElementById('bar').style.width=Math.min(100,n/24*100)+'%'}
+document.getElementById('save').onclick=()=>{if(!document.getElementById('done').checked){document.getElementById('feedback').textContent='请先勾选“我完成了今天的训练”。';return}localStorage.setItem('workouts',Number(localStorage.getItem('workouts')||0)+1);document.getElementById('done').checked=false;document.getElementById('feedback').textContent='已保存！循序渐进，保持规律。';count()};
+document.getElementById('reset').onclick=()=>{if(confirm('确定清除本机训练记录？')){localStorage.removeItem('workouts');count();document.getElementById('feedback').textContent='记录已清除。'}};
+document.getElementById('day').onchange=render;document.getElementById('week').onchange=render;render();count();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script></body></html>
